@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IT Material Management</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 18px 30px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .card-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .card-number {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .sections {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px 6px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        th {
+            color: #555;
+        }
+
+        .menu {
+            margin-bottom: 25px;
+        }
+
+        .menu a {
+            display: inline-block;
+            margin-right: 15px;
+            padding: 10px 15px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        @media (max-width: 1000px) {
+            .cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .sections {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .cards {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    IT Material Management
+</div>
+
+<div class="container">
+
+    <div class="menu">
+        <a href="/admin/inventory/material/">Materials</a>
+        <a href="/admin/inventory/employee/">Employees</a>
+        <a href="/admin/inventory/assetallocation/">Allocations</a>
+        <a href="/admin/inventory/assetreturn/">Returns</a>
+        <a href="/admin/inventory/assettransfer/">Transfers</a>
+        <a href="/admin/">Admin</a>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="card-title">Total Materials</div>
+            <div class="card-number">{{ total_materials }}</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Available</div>
+            <div class="card-number">{{ available_materials }}</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Assigned</div>
+            <div class="card-number">{{ assigned_materials }}</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Damaged</div>
+            <div class="card-number">{{ damaged_materials }}</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Retired</div>
+            <div class="card-number">{{ retired_materials }}</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Employees</div>
+            <div class="card-number">{{ total_employees }}</div>
+        </div>
+
+    </div>
+
+    <div class="sections">
+
+        <div class="section">
+            <h2>Recent Allocations</h2>
+
+            <table>
+                <tr>
+                    <th>Material</th>
+                    <th>Employee</th>
+                </tr>
+
+                {% for allocation in recent_allocations %}
+                <tr>
+                    <td>{{ allocation.material.material_code }}</td>
+                    <td>{{ allocation.employee.employee_name }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2">No allocations found</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Recent Returns</h2>
+
+            <table>
+                <tr>
+                    <th>Material</th>
+                    <th>Employee</th>
+                </tr>
+
+                {% for item in recent_returns %}
+                <tr>
+                    <td>{{ item.allocation.material.material_code }}</td>
+                    <td>{{ item.allocation.employee.employee_name }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2">No returns found</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Recent Transfers</h2>
+
+            <table>
+                <tr>
+                    <th>Material</th>
+                    <th>From → To</th>
+                </tr>
+
+                {% for transfer in recent_transfers %}
+                <tr>
+                    <td>{{ transfer.material.material_code }}</td>
+                    <td>
+                        {{ transfer.from_employee.employee_name }}
+                        →
+                        {{ transfer.to_employee.employee_name }}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2">No transfers found</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asset Returns</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 20px 30px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        a.button {
+            background: #2563eb;
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 25px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #374151;
+            color: white;
+        }
+
+        .return-button {
+            background: #dc2626;
+            color: white;
+            padding: 7px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .status {
+            color: #16a34a;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    IT Material Management
+</div>
+
+<div class="container">
+
+    <div class="top">
+        <h2>Asset Returns</h2>
+
+        <a href="{% url 'dashboard' %}" class="button">
+            Dashboard
+        </a>
+    </div>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Material Code</th>
+                <th>Material</th>
+                <th>Serial Number</th>
+                <th>Employee</th>
+                <th>Allocation Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for allocation in returns %}
+
+            <tr>
+                <td>
+                    {{ allocation.material.material_code }}
+                </td>
+
+                <td>
+                    {{ allocation.material.material_name }}
+                </td>
+
+                <td>
+                    {{ allocation.material.serial_number }}
+                </td>
+
+                <td>
+                    {{ allocation.employee.employee_name }}
+                </td>
+
+                <td>
+                    {{ allocation.allocation_date }}
+                </td>
+
+                <td class="status">
+                    Returned
+                </td>
+
+                <td>
+                    Returned
+                </td>
+            </tr>
+
+        {% empty %}
+
+            <tr>
+                <td colspan="7">
+                    No returned assets found.
+                </td>
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+</html>

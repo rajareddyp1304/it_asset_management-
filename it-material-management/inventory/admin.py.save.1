@@ -1,0 +1,31 @@
+om django.contrib import admin
+
+#
+from django.contrib import admin
+from .models import Material
+
+
+@admin.register(Material)
+class MaterialAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "material_code",
+        "material_name",
+        "category",
+        "brand",
+        "model",
+        "material_type",
+        "serial_number",
+        "status",
+        "active",
+    )
+
+    search_fields = (
+        "material_code",
+        "material_name",
+        "serial_number",
+        "brand",
+        "model",
+    )
+
+  

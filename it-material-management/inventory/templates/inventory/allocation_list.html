@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Asset Allocations</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 18px 30px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .buttons a {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-left: 8px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            background: #2563eb;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        th {
+            background: #374151;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .allocated {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .returned {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .return-button {
+            background: #dc2626;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .disabled {
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    IT Material Management
+</div>
+
+<div class="container">
+
+    <div class="top">
+
+        <h2>Asset Allocations</h2>
+
+        <div class="buttons">
+
+            <a href="{% url 'dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'allocation_add' %}">
+                + Allocate Asset
+            </a>
+
+            <a href="{% url 'return_list' %}">
+                Returns
+            </a>
+
+        </div>
+
+    </div>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Material Code</th>
+                <th>Material</th>
+                <th>Serial Number</th>
+                <th>Employee</th>
+                <th>Location</th>
+                <th>Allocation Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for allocation in allocations %}
+
+            <tr>
+
+                <td>
+                    {{ allocation.material.material_code }}
+                </td>
+
+                <td>
+                    {{ allocation.material.material_name }}
+                </td>
+
+                <td>
+                    {{ allocation.material.serial_number }}
+                </td>
+
+                <td>
+                    {{ allocation.employee.employee_name }}
+                </td>
+
+                <td>
+                    {{ allocation.location }}
+                </td>
+
+                <td>
+                    {{ allocation.allocation_date }}
+                </td>
+
+                <td>
+
+                    {% if allocation.status == "ALLOCATED" %}
+                        <span class="allocated">
+                            Allocated
+                        </span>
+                    {% else %}
+                        <span class="returned">
+                            Returned
+                        </span>
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    {% if allocation.status == "ALLOCATED" %}
+
+                        <a
+                            href="{% url 'return_add' %}?allocation={{ allocation.id }}"
+                            class="return-button"
+                        >
+                            Return Asset
+                        </a>
+
+                    {% else %}
+
+                        <span class="disabled">
+                            Completed
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+        {% empty %}
+
+            <tr>
+                <td colspan="8">
+                    No asset allocations found.
+                </td>
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+</html>

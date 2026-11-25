@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Allocate Asset</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f9;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 18px 30px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 800px;
+            max-width: 90%;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        select,
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .back {
+            margin-left: 15px;
+            text-decoration: none;
+            color: #555;
+        }
+
+        .errorlist {
+            color: red;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+    IT Material Management
+</div>
+
+<div class="container">
+
+    <h2>Allocate Asset</h2>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Allocate Asset
+        </button>
+
+        <a href="{% url 'allocation_list' %}" class="back">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+</html>

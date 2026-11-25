@@ -1,0 +1,19 @@
+om django.db import models
+
+#from django.db import models
+
+
+class Material(models.Model):
+    MATERIAL_TYPES = [
+        ("ASSET", "Asset"),
+        ("CONSUMABLE", "Consumable"),
+    ]
+
+    STATUS_CHOICES = [
+        ("AVAILABLE", "Available"),
+        ("ASSIGNED", "Assigned"),
+        ("DAMAGED", "Damaged"),
+        ("RETIRED", "Retired"),
+    ]
+
+  
