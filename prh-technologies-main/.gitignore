@@ -1,0 +1,7 @@
+node_modules/
+prh.sqlite
+prh.sqlite-shm
+prh.sqlite-wal
+.env
+public/uploads/*
+!public/uploads/.gitkeep
